@@ -2,13 +2,20 @@ import styles from "./Carousel.style.css";
 
 import React, { useState } from "react";
 import { CarouselProps } from "./Carousel";
-import { animated, useSpring } from "react-spring";
+import { animated, useSprings } from "react-spring";
 import { HotKeys } from "react-hotkeys";
 
 export const CarouselView: React.FC<CarouselProps> = props => {
 	const { slides } = props;
 
 	const [current, setCurrent] = useState(0);
+	const springs = useSprings(
+		slides.length,
+		slides.map((_, index) => ({
+			transform: `translateX(${(index - current) * 100}%)`,
+			backgroundColor: `#` + Math.random().toString(16).substr(-6),
+		}))
+	);
 
 	return (
 		<HotKeys
@@ -27,15 +34,9 @@ export const CarouselView: React.FC<CarouselProps> = props => {
 			allowChanges
 			className={styles.container}
 		>
-			{slides.map((slide, index) => (
-				<animated.div
-					style={{
-						left: `${(index - current) * 100}%`,
-						backgroundColor: `red`,
-					}}
-					className={styles.element}
-				>
-					{slide}
+			{springs.map((style, index) => (
+				<animated.div className={styles.element} style={style}>
+					{slides[index]}
 				</animated.div>
 			))}
 		</HotKeys>
