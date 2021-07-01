@@ -7,7 +7,9 @@ import { Carousel } from "../../components/Carousel";
 export const HomeView: React.FC<HomeProps> = props => {
 	return (
 		<div className={styles.container}>
-			<Carousel slides={["✌️", "😈", "👾", "🐱‍👤"]} />
+			<Carousel
+				slides={["✌️", "😈", "👾", "🐱‍👤", "🤬", "🤓", "💩", "🤖"]}
+			/>
 		</div>
 	);
 };
