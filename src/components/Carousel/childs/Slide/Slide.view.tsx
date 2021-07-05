@@ -5,7 +5,7 @@ import { SlideProps } from "./Slide";
 import { animated, config, useSpring } from "react-spring";
 
 export const SlideView: React.FC<SlideProps> = props => {
-	const { index, offsetRadius, animationConfig } = props;
+	const { index, arraySize, offsetRadius } = props;
 
 	const offsetFromCenter = index - offsetRadius;
 	const totalPresentables = 2 * offsetRadius + 1;
@@ -38,7 +38,6 @@ export const SlideView: React.FC<SlideProps> = props => {
 					? 50
 					: 50 + (offsetFromCenter * 50) / offsetRadius
 			}%`,
-			opacity: distanceFactor * distanceFactor,
 		},
 		config: config.default,
 	});
@@ -48,12 +47,21 @@ export const SlideView: React.FC<SlideProps> = props => {
 			className={styles.container}
 			style={{
 				...style,
-				zIndex: Math.abs(Math.abs(offsetFromCenter) - 2),
+				zIndex: Math.abs(
+					Math.abs(offsetFromCenter) - Math.floor(arraySize / 2)
+				),
 				backgroundColor: "#f0f0f0",
 			}}
+			data-order-index={index}
 		>
 			<div className={styles.wrapper}>
-				<div className={styles.content}>{props.children}</div>
+				<div className={styles.content}>
+					<animated.img
+						src={props.children as string}
+						width="100%"
+						height="100%"
+					/>
+				</div>
 			</div>
 		</animated.div>
 	);

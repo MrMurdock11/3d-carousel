@@ -4,7 +4,7 @@ import { SlideView } from "./Slide.view";
 type SlideState = {
 	index: number;
 	offsetRadius: number;
-	animationConfig: any; // temporary type
+	arraySize: number;
 	current?: boolean;
 };
 

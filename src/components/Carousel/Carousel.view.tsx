@@ -2,18 +2,17 @@ import styles from "./Carousel.style.css";
 
 import React, { useEffect, useState } from "react";
 import { CarouselProps } from "./Carousel";
-import { animated, useSprings } from "react-spring";
 import { HotKeys } from "react-hotkeys";
 import { Slide } from "./childs/Slide";
 import { concat, first, indexOf, initial, last, map, tail } from "lodash";
 
-function frontOf<T>(array: T[], currentIndex: number = 0): T[] {
+function frontOf<T>(array: T[], offsetRadius: number): T[] {
 	const dynamicArray = [...array, ...array, ...array];
-	const dynamicCurrentIndex = currentIndex + array.length;
+	const currentIndex = array.length;
 
 	return dynamicArray.slice(
-		dynamicCurrentIndex - 3,
-		dynamicCurrentIndex - 3 + 7
+		currentIndex - offsetRadius,
+		currentIndex - offsetRadius + array.length
 	);
 }
 
@@ -21,9 +20,11 @@ export const CarouselView: React.FC<CarouselProps> = props => {
 	const { slides, offsetRadius } = props;
 
 	const [order, setOrder] = useState(
-		frontOf(map(slides, (_, index) => index))
+		frontOf(
+			map(slides, (_, index) => index),
+			offsetRadius
+		)
 	);
-	const [canvas, setCanvas] = useState(slides);
 
 	return (
 		<HotKeys
@@ -42,11 +43,11 @@ export const CarouselView: React.FC<CarouselProps> = props => {
 			allowChanges
 			className={styles.container}
 		>
-			{canvas.map((slide, index) => (
+			{slides.map((slide, index, arr) => (
 				<Slide
 					offsetRadius={offsetRadius}
 					index={indexOf(order, index)}
-					animationConfig={{}}
+					arraySize={arr.length}
 				>
 					{slide}
 				</Slide>
