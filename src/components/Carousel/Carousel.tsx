@@ -2,6 +2,7 @@ import React from "react";
 import { CarouselView } from "./Carousel.view";
 
 type CarouselState = {
+	offsetRadius: number;
 	slides: string[];
 };
 

@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { CarouselProps } from "./Carousel";
 import { animated, useSprings } from "react-spring";
 import { HotKeys } from "react-hotkeys";
+import { Slide } from "./childs/Slide";
+import { concat, first, indexOf, initial, last, map, tail } from "lodash";
 
-function frontOf<T>(array: T[], currentIndex: number): T[] {
+function frontOf<T>(array: T[], currentIndex: number = 0): T[] {
 	const dynamicArray = [...array, ...array, ...array];
 	const dynamicCurrentIndex = currentIndex + array.length;
 
@@ -16,21 +18,12 @@ function frontOf<T>(array: T[], currentIndex: number): T[] {
 }
 
 export const CarouselView: React.FC<CarouselProps> = props => {
-	const { slides } = props;
+	const { slides, offsetRadius } = props;
 
-	const [current, setCurrent] = useState(0);
-	const [canvas, setCanvas] = useState([]);
-	const springs = useSprings(
-		slides.length,
-		slides.map((_, index) => ({
-			transform: `translateX(${(index - current) * 100}%)`,
-			backgroundColor: `#` + Math.random().toString(16).substr(-6),
-		}))
+	const [order, setOrder] = useState(
+		frontOf(map(slides, (_, index) => index))
 	);
-
-	useEffect(() => {
-		setCanvas(frontOf(slides, current));
-	}, [current]);
+	const [canvas, setCanvas] = useState(slides);
 
 	return (
 		<HotKeys
@@ -39,26 +32,25 @@ export const CarouselView: React.FC<CarouselProps> = props => {
 				PREVIOUSE: "left",
 			}}
 			handlers={{
-				NEXT: () =>
-					current + 1 < slides.length
-						? setCurrent(current + 1)
-						: setCurrent(0),
-				PREVIOUSE: () =>
-					current - 1 > 0
-						? setCurrent(current - 1)
-						: setCurrent(slides.length),
+				NEXT: () => {
+					setOrder(concat(tail(order), first(order)));
+				},
+				PREVIOUSE: () => {
+					setOrder(concat(last(order), initial(order)));
+				},
 			}}
 			allowChanges
 			className={styles.container}
 		>
-			{canvas.map(item => (
-				<div>{item}</div>
+			{canvas.map((slide, index) => (
+				<Slide
+					offsetRadius={offsetRadius}
+					index={indexOf(order, index)}
+					animationConfig={{}}
+				>
+					{slide}
+				</Slide>
 			))}
-			{/* {springs.map((style, index) => (
-				<animated.div className={styles.element} style={style}>
-					{slides[index]}
-				</animated.div>
-			))} */}
 		</HotKeys>
 	);
 };

@@ -1,16 +1,6 @@
 .container {
-	display: grid;
+	position: relative;
 	width: 100vw;
 	height: 100vh;
-	position: relative;
 	overflow: hidden;
-	grid-template-columns: repeat(8, 1fr);
-}
-
-.element {
-	display: flex;
-	font-size: 70px;
-	text-transform: uppercase;
-	align-items: center;
-	justify-content: center;
 }

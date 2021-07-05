@@ -1,7 +1,6 @@
 declare namespace CarouselStyleCssNamespace {
 	export interface ICarouselStyleCss {
 		container: string;
-		element: string;
 	}
 }
 

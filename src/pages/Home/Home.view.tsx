@@ -8,6 +8,7 @@ export const HomeView: React.FC<HomeProps> = props => {
 	return (
 		<div className={styles.container}>
 			<Carousel
+				offsetRadius={3}
 				slides={["✌️", "😈", "👾", "🐱‍👤", "🤬", "🤓", "💩", "🤖"]}
 			/>
 		</div>

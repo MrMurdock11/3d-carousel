@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/MrMurdock11/react-app-starter-pack#readme",
   "dependencies": {
+    "lodash": "^4.17.21",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hotkeys": "^2.0.0",
@@ -31,6 +32,7 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
     "@teamsupercell/typings-for-css-modules-loader": "^2.4.0",
+    "@types/lodash": "^4.14.170",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
     "@types/react-router": "^5.1.12",
